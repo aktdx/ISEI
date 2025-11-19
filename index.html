@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Data Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Main Dashboard Page -->
+    <div class="main-container" id="mainContainer">
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="system-title">Educational Data Management System</h1>
+                    <p class="system-subtitle">Unified Platform for Attendance, Fees, Grades & Communication</p>
+                    <div class="version-badge">v1.0</div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="container">
+                <div class="welcome-section">
+                    <h2 class="welcome-title">Welcome to Your Dashboard</h2>
+                    <p class="welcome-description">Select your role to access your personalized dashboard</p>
+                </div>
+
+                <div class="dashboard-grid" id="dashboardGrid">
+                    <!-- Student Dashboard -->
+                    <div class="dashboard-card student-card" data-role="student">
+                        <div class="card-icon">
+                            <span class="icon">👨‍🎓</span>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Student Dashboard</h3>
+                            <p class="card-description">Access attendance, grades, assignments, and communication</p>
+                        </div>
+                        <div class="card-arrow">→</div>
+                    </div>
+
+                    <!-- Administrative Dashboard -->
+                    <div class="dashboard-card admin-card" data-role="admin">
+                        <div class="card-icon">
+                            <span class="icon">⚙️</span>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Administrative Dashboard</h3>
+                            <p class="card-description">Manage system settings, users, and institutional data</p>
+                        </div>
+                        <div class="card-arrow">→</div>
+                        <div class="coming-soon-badge">Coming Soon</div>
+                    </div>
+
+                    <!-- Teacher Dashboard -->
+                    <div class="dashboard-card teacher-card" data-role="teacher">
+                        <div class="card-icon">
+                            <span class="icon">👩‍🏫</span>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Teacher Dashboard</h3>
+                            <p class="card-description">Manage classes, grades, attendance, and student progress</p>
+                        </div>
+                        <div class="card-arrow">→</div>
+                        <div class="coming-soon-badge">Coming Soon</div>
+                    </div>
+
+                    <!-- Parents Dashboard -->
+                    <div class="dashboard-card parent-card" data-role="parent">
+                        <div class="card-icon">
+                            <span class="icon">👨‍👩‍👧‍👦</span>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Parents Dashboard</h3>
+                            <p class="card-description">Monitor child's progress, fees, and school communication</p>
+                        </div>
+                        <div class="card-arrow">→</div>
+                        <div class="coming-soon-badge">Coming Soon</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <p>&copy; 2025 Educational Data Management System. All rights reserved.</p>
+                    <p class="footer-subtitle">Streamlining educational data management for better outcomes</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal login-modal hidden" id="loginModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Student Login</h3>
+                <button class="modal-close" id="closeLoginModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label" for="username">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+                </form>
+                <div class="forgot-password-link">
+                    <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal forgot-password-modal hidden" id="forgotPasswordModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Reset Password</h3>
+                <button class="modal-close" id="closeForgotPasswordModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="forgot-password-step" id="mobileStep">
+                    <p>Enter your mobile number to receive OTP</p>
+                    <div class="form-group">
+                        <label class="form-label" for="mobileNumber">Mobile Number</label>
+                        <input type="tel" class="form-control" id="mobileNumber" placeholder="+91-9876543210" required>
+                    </div>
+                    <button class="btn btn--primary btn--full-width" id="sendOtpBtn">Send OTP</button>
+                </div>
+                <div class="forgot-password-step hidden" id="otpStep">
+                    <p>Enter the 6-digit OTP sent to your mobile</p>
+                    <div class="otp-display">
+                        <strong>Demo OTP: <span id="generatedOtp"></span></strong>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="otpInput">Enter OTP</label>
+                        <input type="text" class="form-control otp-input" id="otpInput" placeholder="000000" maxlength="6" required>
+                    </div>
+                    <button class="btn btn--primary btn--full-width" id="verifyOtpBtn">Verify OTP</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coming Soon Modal -->
+    <div class="modal coming-soon-modal hidden" id="comingSoonModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Coming Soon</h3>
+                <button class="modal-close" id="closeComingSoonModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="coming-soon-content">
+                    <div class="coming-soon-icon">🚧</div>
+                    <p>This dashboard is currently under development and will be available soon.</p>
+                    <button class="btn btn--secondary" id="closeComingSoonBtn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Dashboard -->
+    <div class="student-dashboard hidden" id="studentDashboard">
+        <header class="dashboard-header">
+            <div class="dashboard-nav">
+                <div class="nav-brand">
+                    <h2>Student Dashboard</h2>
+                </div>
+                <div class="nav-user">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/40x40/4F46E5/ffffff?text=RS" alt="Profile" class="user-avatar">
+                        <span class="user-name">Rahul Sharma</span>
+                    </div>
+                    <button class="btn btn--outline btn--sm" id="logoutBtn">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-layout">
+            <aside class="dashboard-sidebar">
+                <nav class="sidebar-nav">
+                    <a href="#attendance" class="nav-link active" data-section="attendance">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Attendance</span>
+                    </a>
+                    <a href="#fees" class="nav-link" data-section="fees">
+                        <span class="nav-icon">💰</span>
+                        <span class="nav-text">Fees</span>
+                    </a>
+                    <a href="#grades" class="nav-link" data-section="grades">
+                        <span class="nav-icon">📈</span>
+                        <span class="nav-text">Grades</span>
+                    </a>
+                    <a href="#communication" class="nav-link" data-section="communication">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Communication</span>
+                    </a>
+                    <a href="#study-materials" class="nav-link" data-section="study-materials">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-text">Study Materials</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <main class="dashboard-main">
+                <!-- Attendance Section -->
+                <section class="dashboard-section active" id="attendance">
+                    <div class="section-header">
+                        <h3>Attendance Summary</h3>
+                        <p>Track your class attendance and trends</p>
+                    </div>
+                    <div class="attendance-overview">
+                        <div class="overview-card">
+                            <div class="card-stat">
+                                <div class="stat-value">90%</div>
+                                <div class="stat-label">Overall Attendance</div>
+                            </div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="card-stat">
+                                <div class="stat-value">216</div>
+                                <div class="stat-label">Classes Attended</div>
+                            </div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="card-stat">
+                                <div class="stat-value">24</div>
+                                <div class="stat-label">Classes Missed</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="charts-grid">
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <h4>Attendance Distribution</h4>
+                            <canvas id="attendancePieChart"></canvas>
+                        </div>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <h4>Monthly Trend</h4>
+                            <canvas id="monthlyTrendChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Fees Section -->
+                <section class="dashboard-section hidden" id="fees">
+                    <div class="section-header">
+                        <h3>Fees Management</h3>
+                        <p>Track your fee payments and scholarship status</p>
+                    </div>
+                    <div class="fees-overview">
+                        <div class="overview-card">
+                            <div class="card-stat">
+                                <div class="stat-value">₹75,000</div>
+                                <div class="stat-label">Total Fees</div>
+                            </div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="card-stat">
+                                <div class="stat-value">₹50,000</div>
+                                <div class="stat-label">Paid Amount</div>
+                            </div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="card-stat">
+                                <div class="stat-value">₹25,000</div>
+                                <div class="stat-label">Pending Amount</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fees-content">
+                        <div class="fees-section">
+                            <h4>Payment Progress</h4>
+                            <div class="chart-container" style="position: relative; height: 200px;">
+                                <canvas id="feesChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="fees-section">
+                            <h4>Installment Plans</h4>
+                            <div class="installments-table">
+                                <div class="table-header">
+                                    <span>Installment</span>
+                                    <span>Amount</span>
+                                    <span>Due Date</span>
+                                    <span>Status</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>First Installment</span>
+                                    <span>₹25,000</span>
+                                    <span>Jun 15, 2024</span>
+                                    <span class="status status--success">Paid</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>Second Installment</span>
+                                    <span>₹25,000</span>
+                                    <span>Sep 15, 2024</span>
+                                    <span class="status status--success">Paid</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>Third Installment</span>
+                                    <span>₹25,000</span>
+                                    <span>Dec 15, 2024</span>
+                                    <span class="status status--warning">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fees-section">
+                            <h4>Scholarship Options</h4>
+                            <div class="scholarship-tabs">
+                                <button class="tab-btn active" data-tab="available">Available</button>
+                                <button class="tab-btn" data-tab="applied">Applied</button>
+                                <button class="tab-btn" data-tab="received">Received</button>
+                            </div>
+                            <div class="scholarship-content">
+                                <div class="tab-content active" id="available">
+                                    <div class="scholarship-card">
+                                        <h5>Merit Scholarship</h5>
+                                        <p>₹15,000 - For students with excellent academic performance</p>
+                                        <div class="eligibility">Eligibility: GPA > 8.5</div>
+                                        <button class="btn btn--primary btn--sm">Apply Now</button>
+                                    </div>
+                                </div>
+                                <div class="tab-content" id="applied">
+                                    <div class="scholarship-card">
+                                        <h5>Merit Scholarship</h5>
+                                        <p>Status: Under Review</p>
+                                        <div class="applied-date">Applied: Aug 15, 2024</div>
+                                    </div>
+                                </div>
+                                <div class="tab-content" id="received">
+                                    <div class="scholarship-card">
+                                        <h5>Academic Excellence Award</h5>
+                                        <p>₹5,000 - Active</p>
+                                        <div class="received-date">Received: May 20, 2024</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Grades Section -->
+                <section class="dashboard-section hidden" id="grades">
+                    <div class="section-header">
+                        <h3>Grades & Academics</h3>
+                        <p>Track your academic performance and upcoming exams</p>
+                    </div>
+                    <div class="grades-overview">
+                        <div class="overview-card">
+                            <div class="card-stat">
+                                <div class="stat-value">8.7</div>
+                                <div class="stat-label">Current GPA</div>
+                            </div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="card-stat">
+                                <div class="stat-value">8.2</div>
+                                <div class="stat-label">Class Average</div>
+                            </div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="card-stat">
+                                <div class="stat-value">7.9</div>
+                                <div class="stat-label">Department Average</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grades-content">
+                        <div class="grades-section">
+                            <h4>Current Semester Courses</h4>
+                            <div class="courses-grid">
+                                <div class="course-card">
+                                    <h5>Engineering Mathematics</h5>
+                                    <div class="grade">Grade: A</div>
+                                    <div class="marks">85/100</div>
+                                </div>
+                                <div class="course-card">
+                                    <h5>Physics</h5>
+                                    <div class="grade">Grade: A+</div>
+                                    <div class="marks">92/100</div>
+                                </div>
+                                <div class="course-card">
+                                    <h5>Chemistry</h5>
+                                    <div class="grade">Grade: B+</div>
+                                    <div class="marks">78/100</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grades-section">
+                            <h4>Grade Distribution</h4>
+                            <div class="chart-container" style="position: relative; height: 250px;">
+                                <canvas id="gradeDistributionChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="grades-section">
+                            <h4>Upcoming Exams</h4>
+                            <div class="exams-list">
+                                <div class="exam-item">
+                                    <div class="exam-subject">Engineering Mathematics</div>
+                                    <div class="exam-date">Nov 15, 2024</div>
+                                    <div class="exam-type">Mid-term</div>
+                                </div>
+                                <div class="exam-item">
+                                    <div class="exam-subject">Physics</div>
+                                    <div class="exam-date">Nov 18, 2024</div>
+                                    <div class="exam-type">Lab Practical</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Communication Section -->
+                <section class="dashboard-section hidden" id="communication">
+                    <div class="section-header">
+                        <h3>Communication Hub</h3>
+                        <p>Stay updated with announcements, messages, and events</p>
+                    </div>
+                    <div class="communication-grid">
+                        <div class="comm-section">
+                            <h4>Announcements</h4>
+                            <div class="announcements-list">
+                                <div class="announcement-item priority-high">
+                                    <h5>Mid-term Exam Schedule Released</h5>
+                                    <p>The mid-term examination schedule has been published on the portal.</p>
+                                    <div class="announcement-date">Oct 1, 2024</div>
+                                </div>
+                                <div class="announcement-item priority-medium">
+                                    <h5>Campus Fest 2024 - TechnoVision</h5>
+                                    <p>Annual campus festival will be held from Nov 15-17.</p>
+                                    <div class="announcement-date">Sep 28, 2024</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comm-section">
+                            <h4>Quick Messages</h4>
+                            <div class="messages-list">
+                                <div class="message-item unread">
+                                    <div class="message-from">Prof. Smith</div>
+                                    <div class="message-subject">Project Guidelines Updated</div>
+                                    <div class="message-date">Oct 2, 2024</div>
+                                </div>
+                                <div class="message-item">
+                                    <div class="message-from">Dean's Office</div>
+                                    <div class="message-subject">Scholarship Application Update</div>
+                                    <div class="message-date">Sep 30, 2024</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comm-section">
+                            <h4>Upcoming Events</h4>
+                            <div class="events-list">
+                                <div class="event-item">
+                                    <div class="event-name">Technical Seminar on AI/ML</div>
+                                    <div class="event-date">Oct 15, 2024</div>
+                                    <div class="event-location">Main Auditorium</div>
+                                </div>
+                                <div class="event-item">
+                                    <div class="event-name">Annual Sports Day</div>
+                                    <div class="event-date">Oct 20, 2024</div>
+                                    <div class="event-location">Sports Complex</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Study Materials Section -->
+                <section class="dashboard-section hidden" id="study-materials">
+                    <div class="section-header">
+                        <h3>Study Materials</h3>
+                        <p>Access study resources, books, and certification courses</p>
+                    </div>
+                    <div class="materials-tabs">
+                        <button class="tab-btn active" data-tab="resources">Study Resources</button>
+                        <button class="tab-btn" data-tab="books">Books Library</button>
+                        <button class="tab-btn" data-tab="courses">Certification Courses</button>
+                    </div>
+                    <div class="materials-content">
+                        <div class="tab-content active" id="resources">
+                            <div class="resources-grid">
+                                <div class="resource-card">
+                                    <h5>Engineering Mathematics Problem Sets</h5>
+                                    <div class="resource-meta">
+                                        <span>PDF • 2.5 MB</span>
+                                        <span>245 downloads</span>
+                                        <span>★★★★☆ 4.5</span>
+                                    </div>
+                                    <button class="btn btn--primary btn--sm">Download</button>
+                                </div>
+                                <div class="resource-card">
+                                    <h5>Physics Lab Manual with Experiments</h5>
+                                    <div class="resource-meta">
+                                        <span>PDF • 5.2 MB</span>
+                                        <span>189 downloads</span>
+                                        <span>★★★★★ 4.8</span>
+                                    </div>
+                                    <button class="btn btn--primary btn--sm">Download</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-content" id="books">
+                            <div class="books-list">
+                                <div class="book-item">
+                                    <h5>Engineering Mathematics by K.A. Stroud</h5>
+                                    <div class="book-details">
+                                        <span>Available: Digital + Physical</span>
+                                        <span>Location: Library Section A-12</span>
+                                    </div>
+                                    <button class="btn btn--secondary btn--sm">View Details</button>
+                                </div>
+                                <div class="book-item">
+                                    <h5>Concepts of Physics Volume 1</h5>
+                                    <div class="book-details">
+                                        <span>Available: Physical</span>
+                                        <span>Location: Library Section B-15</span>
+                                    </div>
+                                    <button class="btn btn--secondary btn--sm">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-content" id="courses">
+                            <div class="courses-list">
+                                <div class="course-progress-card">
+                                    <h5>Introduction to Python Programming</h5>
+                                    <div class="course-provider">NPTEL • 8 weeks</div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%"></div>
+                                    </div>
+                                    <div class="progress-text">65% complete</div>
+                                </div>
+                                <div class="course-progress-card">
+                                    <h5>Data Structures and Algorithms</h5>
+                                    <div class="course-provider">edX • 10 weeks</div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 100%"></div>
+                                    </div>
+                                    <div class="progress-text">Completed ✓</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
